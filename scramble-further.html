@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Word Scramble</title>
+</head>
+<body>
+    <h1>A Javascript Word Scramble Game</h1>
+
+    <script>
+        // var WORDS     = ["booger", "apple", "hackbright", "mango"];
+        // var SCRAMBLED = ["oogreb", "papel", "backrhight", "goman"];
+        var NEWWORDS = ["another", "list", "words", "academy", "afternoon"];
+
+        var playing = true;
+
+        while (playing) {
+
+            // Grab a random word from the WORDS array
+            var choseIndex = Math.floor(Math.random() * NEWWORDS.length);
+            var chosenWord = NEWWORDS[choseIndex];
+            console.log("Word chosen: ", chosenWord);
+
+            // Scramble the chosen word using this function
+            String.prototype.shuffle = function() {
+                return this.split(" ").map(function(word, i) {
+                    var a = word.split(""),
+                        n = a.length;
+
+                    for (var i = n - 1; i > 0; i--) {
+                        var j = Math.floor(Math.random() * (i + 1));
+                        var tmp = a[i];
+                        a[i] = a[j];
+                        a[j] = tmp;
+                     }
+                    return a.join("");
+                }).join(" ");
+            }
+
+            // Set scrambled word
+            var scrambledWord = (NEWWORDS[choseIndex]).shuffle();
+            console.log(scrambledWord);
+            
+            // prompt the user to guess the original word when given the scrambled word
+            var userInput = prompt(scrambledWord, "Enter original word");
+            if (userInput !== null) {
+                var fixedInput = userInput.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()@]/g,"");
+                fixedInput = fixedInput.replace(/\s+/g, '');
+            }
+
+            console.log(fixedInput)
+;            // If the user guesses wrong, tell them they were wrong and the right word.
+            if (fixedInput !== chosenWord) {
+                alert("You were wrong! The actual word was: " + chosenWord);
+            }
+            
+            // If the user guesses the correct word, congratulate them.
+            if (fixedInput === chosenWord) {
+                alert("Congrats! You guessed correct!");
+            }
+
+            playing = confirm("Press OK To keep playing or Cancel to quit");
+
+            // What does confirm() return?
+            // What does setting the playing variable do?
+        }
+
+        alert("goodbye!");
+    </script>
+    
+</body>
+</html>
